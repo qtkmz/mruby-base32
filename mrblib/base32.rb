@@ -39,6 +39,7 @@ module Base32
   def self.decode(s)
     pad_chr_num = 0
     keys = []
+    s += '=' * (s.bytesize % 8 == 0 ? 0 : 8 - s.bytesize % 8)
     s.bytesize.times do |i|
       if s[i] == '='
         pad_chr_num += 1

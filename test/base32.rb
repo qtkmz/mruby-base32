@@ -39,3 +39,17 @@ assert('Base32.decode') do
     assert_equal Base32.decode(t[:data]), t[:expect]
   end
 end
+
+assert('Base32.decode even if padding is missing/incomplete') do
+  test = [
+   {:data => '',           :expect => '' },
+   {:data => 'ME',         :expect => 'a'},
+   {:data => 'MFRGGZDF',   :expect => 'abcde'},
+   {:data => 'MFRGGZDFMY', :expect => 'abcdef'},
+   {:data => 'AA',         :expect => "\x0"},
+  ]
+
+  test.each do |t|
+    assert_equal Base32.decode(t[:data]), t[:expect]
+  end
+end
