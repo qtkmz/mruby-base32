@@ -1,7 +1,7 @@
 module Base32
   BASE32_TBL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'
 
-  def self.encode(s)
+  def self.encode(s, padding = true)
     s_bin = s.bytes
     pad_chr_num = 5 - s_bin.length % 5
     if 0 < pad_chr_num && pad_chr_num < 5
@@ -22,7 +22,8 @@ module Base32
 
     if 0 < pad_chr_num && pad_chr_num < 5
       n = ((8 * pad_chr_num) / 5).floor
-      base32 = base32.slice(0, base32.length - n) + '=' * n
+      base32 = base32.slice(0, base32.length - n)
+      base32 += '=' * n if padding
     end
 
     base32
@@ -38,6 +39,7 @@ module Base32
   def self.decode(s)
     pad_chr_num = 0
     keys = []
+    s += '=' * (s.bytesize % 8 == 0 ? 0 : 8 - s.bytesize % 8)
     s.bytesize.times do |i|
       if s[i] == '='
         pad_chr_num += 1
