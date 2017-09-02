@@ -8,7 +8,7 @@ assert('Base32.encode') do
   ]
 
   test.each do |t|
-    assertion_string Base32.encode(t[:data]), t[:expect]
+    assert_equal Base32.encode(t[:data]), t[:expect]
   end
 end
 
@@ -22,6 +22,6 @@ assert('Base32.decode') do
   ]
 
   test.each do |t|
-    assertion_string Base32.decode(t[:data]), t[:expect]
+    assert_equal Base32.decode(t[:data]), t[:expect]
   end
 end
